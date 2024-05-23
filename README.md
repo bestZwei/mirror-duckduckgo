@@ -9,7 +9,7 @@ Cloudflare Workers run Worker.js, you can customize the domain name.
 Cloudflare Workers 运行 Worker.js ，可自定义域名
 
 # 免责声明
-No one is allowed to use it illegally, please respect the rules of startpage company, this project is only for learning.
+No one is allowed to use it illegally, please respect the rules of Duckduckgo company, this project is only for learning.
 
 Illegal use of the consequences of their own, mainland China users please use Baidu, Bing and other search engines.
 
