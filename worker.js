@@ -6,8 +6,8 @@ async function handleRequest(request) {
   const url = new URL(request.url)
   const hostname = url.hostname;
 
-  // 检查主机名是否以 "duckduckgo.com" 结尾
-  if (hostname.endsWith('.duckduckgo.com')) {
+  // 检查主机名是否包含 "duckduckgo.com"
+  if (hostname.includes('duckduckgo.com')) {
     const targetUrl = 'https://' + hostname + url.pathname + url.search;
 
     // 修改请求头,模拟浏览器访问
@@ -20,7 +20,8 @@ async function handleRequest(request) {
     const response = await fetch(targetUrl, {
       headers: headers,
       method: request.method,
-      body: request.body
+      body: request.body,
+      redirect: 'follow' // 确保重定向被正确处理
     })
 
     // 修改响应头,隐藏 DuckDuckGo 的原始信息
@@ -28,6 +29,12 @@ async function handleRequest(request) {
     modifiedResponse.headers.set('Server', 'Cloudflare Workers')
     modifiedResponse.headers.delete('Content-Security-Policy')
     modifiedResponse.headers.delete('X-Frame-Options')
+
+    // 确保 Cookies 被正确传递
+    const setCookie = response.headers.get('Set-Cookie')
+    if (setCookie) {
+      modifiedResponse.headers.set('Set-Cookie', setCookie)
+    }
 
     return modifiedResponse;
   } else {
